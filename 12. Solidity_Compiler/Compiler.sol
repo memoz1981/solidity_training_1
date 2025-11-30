@@ -17,4 +17,8 @@ solcjs
     --base-path . \ -> path where the contracts are located
     Voter.sol -> contracts to compile
 
+Note: from power shell use npx solcjs instead to bypass 
+Note: from bin -> we will get files fileName_sol_contractName.bin -> for each contract under the file
+Note: From abi -> we will get same with abi extension
+
 */
