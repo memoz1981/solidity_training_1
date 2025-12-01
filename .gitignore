@@ -1,3 +1,6 @@
 **/.vscode/
 **.abi
 **.bin
+**.vs/
+**bin/
+**obj/
