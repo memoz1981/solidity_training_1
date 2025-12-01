@@ -24,11 +24,19 @@ var contract = await contractReader.Read();
 
 Console.WriteLine(balance);
 
-var gasEstimate = await client.ReturnGasEstimate(contract);
+//var gasEstimate = await client.ReturnGasEstimate(contract);
 
-Console.WriteLine(gasEstimate);
+//Console.WriteLine(gasEstimate);
 
-var transactionReceipt = await client.Deploy(contract, gasEstimate);
+//var transactionReceipt = await client.Deploy(contract, gasEstimate);
 
-Console.WriteLine(transactionReceipt); 
+//Console.WriteLine(transactionReceipt);
+
+var votes = await client.GetVotes(contract);
+
+Console.WriteLine(string.Join(',', votes));
+
+var option = "coffee";
+
+await client.Vote(contract, option); 
 

@@ -1,4 +1,6 @@
-﻿using Nethereum.Hex.HexTypes;
+﻿using Nethereum.ABI.Model;
+using Nethereum.Contracts.Standards.ENS.ReverseRegistrar.ContractDefinition;
+using Nethereum.Hex.HexTypes;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Web3;
 using Nethereum.Web3.Accounts;
@@ -64,5 +66,56 @@ public class Web3Client : IWeb3Client
             values: constructorParams);
 
         return receipt; 
+    }
+
+    public async Task<BigInteger[]> GetVotes(Contract contract)
+    {
+        var chainId = _configuration.ChainId;
+        var privateKey = _configuration.PrivateKey;
+        var url = _configuration.Url;
+        var account = new Account(privateKey, chainId);
+        var web3 = new Web3(account, url);
+
+        var deployedContract = web3.Eth.GetContract(contract.Abi, _configuration.ContractAddress);
+
+        var getVotesFunction = deployedContract.GetFunction("getVotes");
+
+        var result = await getVotesFunction.CallAsync<List<BigInteger>>();
+        
+        return result.ToArray(); 
+    }
+
+    public async Task Vote(Contract contract, string optionName)
+    {
+        var chainId = _configuration.ChainId;
+        var privateKey = _configuration.PrivateKey;
+        var url = _configuration.Url;
+        var account = new Account(privateKey, chainId);
+        var web3 = new Web3(account, url);
+
+        var deployedContract = web3.Eth.GetContract(contract.Abi, _configuration.ContractAddress);
+
+        var getVotesFunction = deployedContract.GetFunction("vote");
+
+        //var gas = await getVotesFunction.EstimateGasAsync(account.Address, null, null, optionName);
+
+        // Send transaction
+        //var receipt = await getVotesFunction.SendTransactionAndWaitForReceiptAsync(
+        //    account.Address,
+        //    new HexBigInteger(300000),
+        //    null, // value in ETH, if any
+        //    null, // cancellation token
+        //    optionName
+        //);
+
+        var voteMessage = new VoteFunctionMessage
+        {
+            OptionName = "coffee",
+            FromAddress = account.Address,
+            Gas = 300000
+        };
+
+        var handler = web3.Eth.GetContractTransactionHandler<VoteFunctionMessage>();
+        var receipt = await handler.SendRequestAndWaitForReceiptAsync(_configuration.ContractAddress, voteMessage);
     }
 }
