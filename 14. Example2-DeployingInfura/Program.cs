@@ -11,6 +11,7 @@ var configuration = conf.GetSection("Configurations").Get<Configuration>();
 
 services.AddSingleton(configuration);
 services.AddSingleton<IWeb3Client, Web3Client>();
+services.AddSingleton<IContractReader, ContractReader>();
 
 var provider = services.BuildServiceProvider();
 
@@ -18,4 +19,16 @@ var provider = services.BuildServiceProvider();
 var client = provider.GetRequiredService<IWeb3Client>();
 var balance = await client.GetBalance();
 
-Console.WriteLine(balance); 
+var contractReader = provider.GetRequiredService<IContractReader>();
+var contract = await contractReader.Read();
+
+Console.WriteLine(balance);
+
+var gasEstimate = await client.ReturnGasEstimate(contract);
+
+Console.WriteLine(gasEstimate);
+
+var transactionReceipt = await client.Deploy(contract, gasEstimate);
+
+Console.WriteLine(transactionReceipt); 
+
