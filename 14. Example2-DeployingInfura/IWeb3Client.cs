@@ -10,4 +10,5 @@ public interface IWeb3Client
     Task<TransactionReceipt> Deploy(Contract contract, BigInteger gasEstimate);
     Task<BigInteger[]> GetVotes(Contract contract);
     Task Vote(Contract contract, string option);
+    Task<BigInteger> GetNonce(Contract contract);
 }

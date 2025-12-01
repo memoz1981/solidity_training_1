@@ -118,4 +118,17 @@ public class Web3Client : IWeb3Client
         var handler = web3.Eth.GetContractTransactionHandler<VoteFunctionMessage>();
         var receipt = await handler.SendRequestAndWaitForReceiptAsync(_configuration.ContractAddress, voteMessage);
     }
+
+    public async Task<BigInteger> GetNonce(Contract contract)
+    {
+        var chainId = _configuration.ChainId;
+        var privateKey = _configuration.PrivateKey;
+        var url = _configuration.Url;
+        var account = new Account(privateKey, chainId);
+        var web3 = new Web3(account, url);
+
+        var nonce = await web3.Eth.Transactions.GetTransactionCount.SendRequestAsync(_configuration.AccountAddress); 
+
+        return nonce;
+    }
 }

@@ -38,5 +38,8 @@ Console.WriteLine(string.Join(',', votes));
 
 var option = "coffee";
 
-await client.Vote(contract, option); 
+await client.Vote(contract, option);
+
+var nonce = await client.GetNonce(contract);
+Console.WriteLine(nonce);
 
