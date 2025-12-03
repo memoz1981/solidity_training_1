@@ -31,7 +31,8 @@ Note: Infura is a node provider. What is a node provider?
 - there are others like Alchemy etc. 
 - provides us with a URL (similar to running a client locally)
 
-
+Note: Normally it's expensive to use geth (a lot of space is required)
+instead we may use Infura... 
 
 
 
