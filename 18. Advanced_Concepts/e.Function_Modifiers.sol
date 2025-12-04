@@ -18,11 +18,14 @@ contract FooOld {
     }
 }
 
+enum ContractState { New, Old }
+
 contract FooReFactored {
     address owner;
     bool isActive; 
     address remover; 
     bool isRemoved; 
+    ContractState state; 
     
     // modifier without parameter
     modifier ownerOnly {
@@ -46,4 +49,15 @@ contract FooReFactored {
     function removeItem() public removerOnly(remover){
         isRemoved = true; 
     }
+
+    modifier newOnly {
+        require(state == ContractState.New); 
+        _; 
+    }
+
+    //multiple modifiers
+    function returnState() public view newOnly ownerOnly returns(ContractState){
+        return state;  
+    }
+
 }   

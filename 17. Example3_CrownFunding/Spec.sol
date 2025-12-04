@@ -6,7 +6,7 @@ The purpose: Collect funds for a specific purpose -> desired amount/by desired d
 
 Functionality: 
 - Deadline
-- Pre-determined amount
+- Pre-deter mined amount
 - If successful -> money is transferred to a beneficiary
 - If fails -> refund money
 
